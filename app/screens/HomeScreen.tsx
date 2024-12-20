@@ -1,7 +1,7 @@
 import { Text } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context"
 
-export const HomeScreen = () => {
+const HomeScreen = () => {
     return (
         <SafeAreaProvider>
             <SafeAreaView>
@@ -10,3 +10,5 @@ export const HomeScreen = () => {
         </SafeAreaProvider>
     );
 }
+
+export default HomeScreen;

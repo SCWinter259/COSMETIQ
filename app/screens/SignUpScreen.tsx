@@ -1,7 +1,7 @@
 import { Text } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context"
 
-export const SignUpScreen = () => {
+const SignUpScreen = () => {
     return (
         <SafeAreaProvider>
             <SafeAreaView>
@@ -10,3 +10,5 @@ export const SignUpScreen = () => {
         </SafeAreaProvider>
     );
 }
+
+export default SignUpScreen;

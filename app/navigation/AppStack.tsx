@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { HomeScreen } from "../screens/HomeScreen";
+import HomeScreen from "../screens/HomeScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -7,7 +7,7 @@ const Stack = createNativeStackNavigator();
  * App navigation for logged in users.
  * @returns 
  */
-export const AppStack = () => {
+const AppStack = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -18,3 +18,5 @@ export const AppStack = () => {
         </Stack.Navigator>
     );
 };
+
+export default AppStack;
