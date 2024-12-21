@@ -2,15 +2,18 @@ import AuthProvider, { useAuthContext } from "./contexts/AuthContext";
 import { NavigationContainer } from "@react-navigation/native";
 import AppStack from "./navigation/AppStack";
 import GuestStack from "./navigation/GuestStack";
+import { Stack } from "expo-router";
 
-export const App = () => {
+const App = () => {
   const { loggedInUser } = useAuthContext();
 
   return (
     <AuthProvider>
-      <NavigationContainer>
+      {/* <NavigationContainer> */}
         {loggedInUser ? <AppStack /> : <GuestStack />}
-      </NavigationContainer>
+      {/* </NavigationContainer> */}
     </AuthProvider>
   );
 };
+
+export default App;
