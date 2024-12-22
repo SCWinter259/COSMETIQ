@@ -1,11 +1,9 @@
-import { Redirect } from "expo-router";
-import App from "./App";
-import { View } from "react-native";
+import { Text } from 'react-native';
+import { useAuthContext } from './contexts/AuthContext';
+import { Redirect } from 'expo-router';
 
 export default function Index() {
-  return (
-    <View>
-      <App/>
-    </View>
-  );
+  const {loggedInUser, setLoggedInUser} = useAuthContext();
+
+  return loggedInUser ? <Redirect href="/home" /> : <Redirect href="/login" />;
 }
