@@ -1,14 +1,15 @@
 import { createContext, useContext, useState } from "react";
+import { User } from "@/types/User";
 
-interface ICreateContext {
-    loggedInUser: any;
-    setLoggedInUser: ((user: any) => void) | null;
+interface ILogInContext {
+    loggedInUser: User | null;
+    setLoggedInUser: (user: User | null) => void;
 }
 
 // the context stores information (with a dumb default context)
-export const AuthContext = createContext<ICreateContext>({
+export const AuthContext = createContext<ILogInContext>({
     loggedInUser: null, 
-    setLoggedInUser: null
+    setLoggedInUser: () => {}
 });
 
 interface IAuthProvider {
@@ -18,7 +19,7 @@ interface IAuthProvider {
 // AuthProvider wraps around other components so that they can
 // have access to the context
 const AuthProvider = ({ children }: IAuthProvider) => {
-    const [loggedInUser, setLoggedInUser] = useState(null);
+    const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
 
     return (
         <AuthContext.Provider value={{ loggedInUser, setLoggedInUser }}>

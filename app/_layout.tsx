@@ -1,5 +1,5 @@
 import { Slot, Stack } from "expo-router";
-import AuthProvider, { useAuthContext } from "./contexts/AuthContext";
+import AuthProvider, { useAuthContext } from "../contexts/AuthContext";
 import { Fragment } from "react";
 
 export default function RootLayout() {

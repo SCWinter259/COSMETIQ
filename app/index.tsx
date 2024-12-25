@@ -1,4 +1,4 @@
-import { useAuthContext } from "./contexts/AuthContext";
+import { useAuthContext } from "../contexts/AuthContext";
 import { Redirect } from "expo-router";
 import { Provider as PaperProvider } from "react-native-paper";
 

@@ -8,7 +8,7 @@ const Welcome = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Welcome to the app!</Text>
+      <Text style={styles.title}>Welcome to COSMETIQ!</Text>
       <Button
         mode="contained"
         style={styles.button}
