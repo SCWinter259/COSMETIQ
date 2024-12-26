@@ -23,7 +23,7 @@ const Login = () => {
     try {
       const res: UserCredential = await signInWithEmailAndPassword(authentication, email, password);
       setLoggedInUser(res.user);
-      // router.push("/");
+      router.push("/");
     } catch (error) {
       setError("Incorrect Email/Password");
     } finally {
