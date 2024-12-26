@@ -1,19 +1,17 @@
-import { SafeAreaView, Text, View } from "react-native";
-import firebase from "firebase/compat/app";
+import { SafeAreaView, View } from "react-native";
 import { authentication } from "../../firebase/config";
+import { useRouter } from "expo-router";
 import { signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { useAuthContext } from "../../contexts/AuthContext";
-import { useRef, useState } from "react";
-import { Button, TextInput } from "react-native-paper";
-import { styles } from "./loginStyles";
+import { useState } from "react";
+import { Button, TextInput, Text, ActivityIndicator } from "react-native-paper";
+import styles from "./loginStyles";
 
 const Login = () => {
+  const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-
-  const inputRef = useRef<string>("");
-  const passwordRef = useRef<string>("");
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -21,18 +19,17 @@ const Login = () => {
 
   const handleLogin = async () => {
     setIsLoading(true);
-    
-    signInWithEmailAndPassword(authentication, email, password)
-      .then((res: UserCredential) => {
-        console.log("successful");
-        setLoggedInUser(res.user);
-      })
-      .catch((error) => {
-        console.error(error);
-        setError("Incorrect Email/Password");
-      })
-      .finally(() => setIsLoading(false));
-  }
+
+    try {
+      const res: UserCredential = await signInWithEmailAndPassword(authentication, email, password);
+      setLoggedInUser(res.user);
+      // router.push("/");
+    } catch (error) {
+      setError("Incorrect Email/Password");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -41,6 +38,7 @@ const Login = () => {
         style={styles.input}
         label="Email"
         value={email}
+        keyboardType="email-address"
         onChangeText={(text) => setEmail(text)}
       />
       <TextInput
@@ -50,9 +48,23 @@ const Login = () => {
         secureTextEntry={true}
         onChangeText={(text) => setPassword(text)}
       />
-      <Button style={styles.button} onPress={() => signInWithEmailAndPassword(authentication, email, password)}>
-
+      {error && <Text>{error}</Text>}
+      <Button style={styles.button} onPress={handleLogin}>
+        <Text style={styles.loginText}>Login</Text>
+        {isLoading && (
+          <ActivityIndicator
+            size="small"
+            color="white"
+            style={styles.loading}
+          />
+        )}
       </Button>
+      <View style={{ flexDirection: "row" }}>
+        <Text style={styles.downText}>Don't have an account?</Text>
+        <Button onPress={() => router.push("/signup")}>
+          <Text style={styles.signup}>Sign Up</Text>
+        </Button>
+      </View>
     </SafeAreaView>
   );
 };
