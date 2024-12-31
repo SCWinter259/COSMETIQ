@@ -58,16 +58,16 @@ const Login = () => {
         secureTextEntry={true}
         onChangeText={(text) => setPassword(text)}
       />
-      {error && <Text>{error}</Text>}
+      {error ? <Text>{error}</Text> : null}
       <Button style={styles.button} onPress={handleLogin}>
         <Text style={styles.loginText}>Login</Text>
-        {isLoading && (
+        {isLoading ? (
           <ActivityIndicator
             size="small"
             color="white"
             style={styles.loading}
           />
-        )}
+        ) : null}
       </Button>
       <View style={{ flexDirection: "row" }}>
         <Text style={styles.downText}>Don't have an account?</Text>

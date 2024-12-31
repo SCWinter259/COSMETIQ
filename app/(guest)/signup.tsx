@@ -8,7 +8,6 @@ import { FirebaseError } from "firebase/app";
 import { useRouter } from "expo-router";
 import { doc, setDoc, DocumentReference, Timestamp } from "firebase/firestore";
 import { db } from "@/firebase/config";
-import { onAuthStateChanged } from "firebase/auth";
 import styles from "@/styles/guest/signupStyles";
 
 class PasswordsDoNotMatchError extends Error {
@@ -118,7 +117,7 @@ const SignUp = () => {
         value={confirmPassword}
         onChangeText={(text) => setConfirmPassword(text)}
       />
-      {error && <Text>{error}</Text>}
+      {error ? <Text>{error}</Text> : null}
       <Button onPress={handleSignUp} style={styles.button}>
         <Text style={styles.buttonText}>Sign Up</Text>
         {isLoading && (

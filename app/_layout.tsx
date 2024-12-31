@@ -9,7 +9,7 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <PaperProvider theme={MD3LightTheme}>
-        <Slot /> {/* This renders the child routes */}
+        <Slot />
       </PaperProvider>
     </AuthProvider>
   );
