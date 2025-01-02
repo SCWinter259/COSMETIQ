@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
+// import { initializeAuth, getReactNativePersistence } from "@firebase/auth";
 import { getAuth } from "firebase/auth";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
@@ -28,4 +29,7 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
 // const analytics = getAnalytics(app);
-export const authentication = getAuth(app);
+// export const auth = initializeAuth(app, {
+//   persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+// });
+export const auth = getAuth(app);

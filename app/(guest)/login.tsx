@@ -1,5 +1,5 @@
 import { SafeAreaView, View } from "react-native";
-import { authentication } from "../../firebase/config";
+import { auth } from "../../firebase/config";
 import { useRouter } from "expo-router";
 import { signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { useAuthContext } from "../../contexts/AuthContext";
@@ -23,7 +23,7 @@ const Login = () => {
 
     try {
       const res: UserCredential = await signInWithEmailAndPassword(
-        authentication,
+        auth,
         email,
         password
       );

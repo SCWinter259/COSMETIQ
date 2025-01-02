@@ -1,7 +1,7 @@
 import { SafeAreaView } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { authentication } from "@/firebase/config";
+import { auth } from "@/firebase/config";
 import { signOut } from "firebase/auth";
 import { useRouter } from "expo-router";
 import styles from "@/styles/user/homeStyles";
@@ -12,7 +12,7 @@ const Home = () => {
 
   const signOutUser = async () => {
     try {
-      const res: void = await signOut(authentication);
+      const res: void = await signOut(auth);
       setLoggedInUser(null);
       router.push("/");
     } catch (error) {

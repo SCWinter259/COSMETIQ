@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
-import { authentication } from "@/firebase/config";
+import { auth } from "@/firebase/config";
 import { SafeAreaView } from "react-native";
 import { ActivityIndicator, Button, Text, TextInput } from "react-native-paper";
 import { FirebaseError } from "firebase/app";
@@ -51,7 +51,7 @@ const SignUp = () => {
 
       // Create an auth user
       const res: UserCredential = await createUserWithEmailAndPassword(
-        authentication,
+        auth,
         email,
         password
       );
