@@ -5,7 +5,7 @@ export default function GuestLayout() {
     <Stack>
       <Stack.Screen name="login" options={{ title: "Login" }} />
       <Stack.Screen name="signup" options={{ title: "SignUp" }} />
-      <Stack.Screen name="welcome" options={{ title: "Welcome" }} />
+      <Stack.Screen name="welcome" options={{ headerShown: false }} />
     </Stack>
   );
 }

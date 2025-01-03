@@ -11,17 +11,17 @@ const Welcome = () => {
       <Text style={styles.title}>Welcome to COSMETIQ!</Text>
       <Button
         mode="contained"
-        style={styles.button}
+        style={styles.loginButton}
         onPress={() => router.push("/login")}
       >
-        <Text>Login</Text>
+        <Text style={styles.loginButtonText}>Login</Text>
       </Button>
       <Button
         mode="outlined"
-        style={styles.button}
+        style={styles.signupButton}
         onPress={() => router.push("/signup")}
       >
-        <Text>Sign Up</Text>
+        <Text style={styles.signupButtonText}>Sign Up</Text>
       </Button>
     </SafeAreaView>
   );

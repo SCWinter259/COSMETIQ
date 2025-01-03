@@ -1,3 +1,5 @@
+import colors from "@/constants/colors";
+import fonts from "@/constants/fonts";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
@@ -5,17 +7,31 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#ffffff",
-    paddingHorizontal: 20,
+    backgroundColor: colors.DEFAULT_WHITE,
+    paddingHorizontal: 10,
   },
   title: {
+    fontFamily: fonts.Roboto_700Bold,
+    color: colors.PURPLE,
     fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 30,
+    marginBottom: 20,
   },
-  button: {
-    width: "90%",
-    marginVertical: 10,
+  loginButton: {
+    marginBottom: 10,
+    backgroundColor: colors.PURPLE,
+    width: "80%",
+  },
+  loginButtonText: {
+    fontFamily: fonts.Roboto_500Medium,
+    color: colors.DEFAULT_WHITE,
+  },
+  signupButton: {
+    borderColor: colors.PURPLE,
+    width: "80%",
+  },
+  signupButtonText: {
+    fontFamily: fonts.Roboto_500Medium,
+    color: colors.PURPLE,
   },
 });
 
