@@ -1,73 +1,55 @@
 import { StyleSheet } from "react-native";
+import colors from "@/constants/colors";
+import fonts from "@/constants/fonts";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
+    backgroundColor: colors.DEFAULT_WHITE,
+    padding: 5,
   },
-  label: {
-    fontSize: 16,
-    marginBottom: 8,
+  welcomeText: {
+    fontFamily: fonts.Roboto_700Bold,
+    color: colors.PURPLE,
+    fontSize: 24,
+    marginBottom: 16,
   },
   input: {
-    width: "100%",
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
+    width: "80%",
+    height: 48,
     marginBottom: 16,
     paddingLeft: 8,
     paddingRight: 8,
   },
   button: {
-    backgroundColor: "#302298",
-    borderRadius: 20,
-    padding: 10,
-    margin: 14,
-    width: "78%",
-    height: 50,
-    alignItems: "center",
+    width: "80%",
+    backgroundColor: colors.PURPLE,
+    height: 48,
     justifyContent: "center",
-    flexDirection: "row",
+    margin: 8,
   },
   loginText: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-    fontSize: 16,
-    alignSelf: "center",
-  },
-  welcomeText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 16,
-    textAlign: "center",
-  },
-  logo: {
-    width: 150,
-    height: 150,
-    marginBottom: 20,
-  },
-  downText: {
-    color: "#331ece",
-    fontSize: 16,
-    fontWeight: "400",
-    marginTop: 10,
-  },
-  signup: {
-    alignSelf: "flex-start",
-    textDecorationLine: "underline",
-    color: "#331ece",
-    fontSize: 16,
-    fontWeight: "500",
-    marginLeft: 5,
-    marginTop: 10,
+    color: colors.DEFAULT_WHITE,
+    fontFamily: fonts.Roboto_500Medium,
   },
   loading: {
-    alignSelf: "center",
-    justifyContent: "center",
-    paddingLeft: 10,
+    margin: 8,
+  },
+  downText: {
+    color: colors.PINK,
+    fontFamily: fonts.Roboto_400Regular,
+    fontSize: 16,
+    marginTop: 12,
+  },
+  signup: {
+    textDecorationLine: "underline",
+    fontFamily: fonts.Roboto_400Regular,
+    color: colors.PURPLE,
+    fontSize: 16,
+    marginLeft: 4,
+    marginTop: 12,
   },
 });
 
