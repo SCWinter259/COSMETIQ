@@ -10,6 +10,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.DEFAULT_WHITE,
     padding: 5,
   },
+  signOutButton: {
+    borderColor: colors.PURPLE,
+    width: "80%",
+  },
+  signOutText: {
+    fontFamily: fonts.Roboto_500Medium,
+    color: colors.PURPLE,
+  }
 });
 
 export default styles;

@@ -7,7 +7,7 @@ export default function Index() {
 
   return (
     <>
-      {loggedInUser ? <Redirect href="/home" /> : <Redirect href="/(guest)/welcome" />}
+      {loggedInUser ? <Redirect href="/(user)/home" /> : <Redirect href="/(guest)/welcome" />}
     </>
   );
 }
