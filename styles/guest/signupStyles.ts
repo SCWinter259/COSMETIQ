@@ -1,39 +1,41 @@
 import { StyleSheet } from "react-native";
+import colors from "@/constants/colors";
+import fonts from "@/constants/fonts";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#ffffff",
-    paddingHorizontal: 20,
+    backgroundColor: colors.DEFAULT_WHITE,
+    padding: 5,
   },
   title: {
+    fontFamily: fonts.Roboto_700Bold,
+    color: colors.PURPLE,
     fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 16,
   },
   input: {
-    width: "100%",
-    height: 40,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 5,
+    width: "80%",
+    height: 48,
     marginBottom: 16,
     paddingLeft: 8,
+    paddingRight: 8,
+  },
+  loading: {
+    margin: 8,
   },
   button: {
-    backgroundColor: "#007BFF",
-    width: "100%",
-    paddingVertical: 15,
-    borderRadius: 10,
-    marginTop: 10,
+    width: "80%",
+    backgroundColor: colors.PURPLE,
+    height: 48,
+    justifyContent: "center",
+    margin: 8,
   },
   buttonText: {
-    color: "#ffffff",
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
+    color: colors.DEFAULT_WHITE,
+    fontFamily: fonts.Roboto_500Medium,
   },
 });
 

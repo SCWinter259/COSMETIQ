@@ -9,6 +9,7 @@ import { useRouter } from "expo-router";
 import { doc, setDoc, DocumentReference, Timestamp } from "firebase/firestore";
 import { db } from "@/firebase/config";
 import styles from "@/styles/guest/signupStyles";
+import colors from "@/constants/colors";
 
 class PasswordsDoNotMatchError extends Error {
   constructor() {
@@ -29,6 +30,7 @@ const SignUp = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+  const [viewPassword, setViewPassword] = useState<boolean>(false);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { loggedInUser, setLoggedInUser } = useAuthContext();
@@ -64,7 +66,7 @@ const SignUp = () => {
         email: res.user.email,
         createdAt: Timestamp.now(),
       });
-      
+
       // set that user is logged in and redirect to home
       setLoggedInUser(res.user);
       setError(null);
@@ -84,53 +86,65 @@ const SignUp = () => {
     }
   };
 
+  const viewPasswordIcon = viewPassword ? (
+    <TextInput.Icon onPress={() => setViewPassword(false)} icon="eye-off" />
+  ) : (
+    <TextInput.Icon onPress={() => setViewPassword(true)} icon="eye" />
+  );
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
+      <Text style={styles.title}>Create a new account</Text>
       <TextInput
         style={styles.input}
-        placeholder="Username"
-        keyboardType="default"
-        autoCapitalize="none"
+        mode="outlined"
+        label="Username"
+        outlineColor={colors.PURPLE}
+        activeOutlineColor={colors.PURPLE}
         value={username}
         onChangeText={(text) => setUsername(text)}
       />
       <TextInput
         style={styles.input}
-        placeholder="Email"
+        mode="outlined"
+        label="Email"
         keyboardType="email-address"
-        autoCapitalize="none"
+        outlineColor={colors.PURPLE}
+        activeOutlineColor={colors.PURPLE}
         value={email}
         onChangeText={(text) => setEmail(text)}
       />
       <TextInput
         style={styles.input}
-        placeholder="Password"
-        secureTextEntry={true}
+        mode="outlined"
+        label="Password"
+        outlineColor={colors.PURPLE}
+        activeOutlineColor={colors.PURPLE}
         value={password}
+        secureTextEntry={!viewPassword}
         onChangeText={(text) => setPassword(text)}
+        right={viewPasswordIcon}
       />
       <TextInput
         style={styles.input}
-        placeholder="Confirm Password"
-        secureTextEntry={true}
+        mode="outlined"
+        label="Confirm Password"
+        outlineColor={colors.PURPLE}
+        activeOutlineColor={colors.PURPLE}
         value={confirmPassword}
+        secureTextEntry={true}
         onChangeText={(text) => setConfirmPassword(text)}
       />
       {error ? <Text>{error}</Text> : null}
+      {isLoading ? (
+        <ActivityIndicator
+          size="small"
+          color={colors.PURPLE}
+          style={styles.loading}
+        />
+      ) : null}
       <Button onPress={handleSignUp} style={styles.button}>
         <Text style={styles.buttonText}>Sign Up</Text>
-        {isLoading && (
-          <ActivityIndicator
-            size="small"
-            color="white"
-            style={{
-              alignSelf: "center",
-              justifyContent: "center",
-              paddingLeft: 10,
-            }}
-          />
-        )}
       </Button>
     </SafeAreaView>
   );
