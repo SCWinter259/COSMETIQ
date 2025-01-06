@@ -1,28 +1,31 @@
-import { useState } from "react";
-import { BottomNavigation } from "react-native-paper";
-import Home from "./home";
-import Profile from "./profile";
-import Settings from "./settings";
+import { Tabs } from "expo-router";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import colors from "@/constants/colors";
 
 export default function UserLayout() {
-  const [index, setIndex] = useState<number>(0);
-  const [routes] = useState([
-    { key: "home", title: "Home", focusedIcon: "home", unfocusedIcon: "home-outline" },
-    { key: "profile", title: "Profile", focusedIcon: "account", unfocusedIcon: "account-outline" },
-    { key: "settings", title: "Settings", focusedIcon: "cog", unfocusedIcon: "cog-outline" },
-  ]);
-
-  const renderScene = BottomNavigation.SceneMap({
-    home: Home,
-    profile: Profile,
-    settings: Settings,
-  });
-
   return (
-    <BottomNavigation
-      navigationState={{ index, routes }}
-      onIndexChange={setIndex}
-      renderScene={renderScene}
-    />
+    <Tabs screenOptions={{ tabBarActiveTintColor: colors.PURPLE }}>
+      <Tabs.Screen
+        name="home"
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => <MaterialIcons size={28} name="home" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => <MaterialIcons size={28} name="account-circle" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => <MaterialIcons size={28} name="settings" color={color} />,
+        }}
+      />
+    </Tabs>
   );
 }

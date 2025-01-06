@@ -8,7 +8,7 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Button mode="contained" onPress={() => router.push("/addItem")}>
+      <Button mode="contained" onPress={() => router.push("/home/addItem")}>
         <Text>Navigate to add item</Text>
       </Button>
     </SafeAreaView>

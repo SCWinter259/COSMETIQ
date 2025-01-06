@@ -3,3 +3,6 @@
 - [For difference between getAuth and initializeAuth](https://firebase.google.com/docs/reference/js/auth)
 - [Chosen Colour Palette](https://colorhunt.co/palette/cb9df0f0c1e1fddbbbfff9bf)
 - [Setting Font with Expo](https://docs.expo.dev/develop/user-interface/fonts/#with-usefonts-hook-1)
+- [For Expo MaterialIcons name search](https://icons.expo.fyi/Index)
+- [Expo tab navigation](https://docs.expo.dev/router/advanced/tabs/)
+- [Use Expo Tabs with Stack for a screen in a tab](https://www.youtube.com/watch?v=4-shpLyYBLc)
