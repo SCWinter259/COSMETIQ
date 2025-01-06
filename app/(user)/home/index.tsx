@@ -1,6 +1,6 @@
 import { SafeAreaView } from "react-native";
 import { Text, Button } from "react-native-paper";
-import styles from "@/styles/user/homeStyles";
+import styles from "@/styles/user/home/homeStyles";
 import { useRouter } from "expo-router";
 
 const Home = () => {
