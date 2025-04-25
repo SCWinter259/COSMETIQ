@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native";
-import { Text, Button } from "react-native-paper";
+import { Text, FAB } from "react-native-paper";
 import styles from "@/styles/user/home/homeStyles";
 import { useRouter } from "expo-router";
 
@@ -8,9 +8,11 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Button mode="contained" onPress={() => router.push("/home/addItem")}>
-        <Text>Navigate to add item</Text>
-      </Button>
+      <FAB
+        style={styles.fab}
+        icon="plus"
+        onPress={() => router.push("/home/addItem")}
+      />
     </SafeAreaView>
   );
 };

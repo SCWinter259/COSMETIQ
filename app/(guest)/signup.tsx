@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { auth } from "@/firebase/config";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import { ActivityIndicator, Button, Text, TextInput } from "react-native-paper";
 import { FirebaseError } from "firebase/app";
 import { useRouter } from "expo-router";
@@ -146,6 +146,12 @@ const SignUp = () => {
       <Button onPress={handleSignUp} style={styles.button}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </Button>
+      <View style={{ flexDirection: "row" }}>
+        <Text style={styles.downText}>Already have an account?</Text>
+        <Button mode="text" onPress={() => router.push("/login")}>
+          <Text style={styles.login}>Login</Text>
+        </Button>
+      </View>
     </SafeAreaView>
   );
 };

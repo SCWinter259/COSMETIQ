@@ -37,6 +37,20 @@ const styles = StyleSheet.create({
     color: colors.DEFAULT_WHITE,
     fontFamily: fonts.Roboto_500Medium,
   },
+  downText: {
+    color: colors.PURPLE,
+    fontFamily: fonts.Roboto_400Regular,
+    fontSize: 16,
+    marginTop: 12,
+  },
+  login: {
+    textDecorationLine: "underline",
+    fontFamily: fonts.Roboto_400Regular,
+    color: colors.PINK,
+    fontSize: 16,
+    marginLeft: 4,
+    marginTop: 12,
+  },
 });
 
 export default styles;
