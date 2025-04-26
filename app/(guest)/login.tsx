@@ -1,7 +1,7 @@
-import { SafeAreaView, View } from "react-native";
+import { Alert, SafeAreaView, View } from "react-native";
 import { auth } from "../../firebase/config";
 import { useRouter } from "expo-router";
-import { signInWithEmailAndPassword, UserCredential } from "firebase/auth";
+import { sendEmailVerification, signInWithEmailAndPassword, signOut, UserCredential } from "firebase/auth";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useState } from "react";
 import { Button, TextInput, Text, ActivityIndicator } from "react-native-paper";
@@ -24,14 +24,28 @@ const Login = () => {
     setIsLoading(true);
 
     try {
+      // Try and get the auth user (will throw error if there is none)
       const res: UserCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
-      setLoggedInUser(res.user);
-      setError(null);
-      router.push("/home");
+      const user = res.user;
+
+      // Check if the user exists and verified
+      if(user && user.emailVerified) {
+        setLoggedInUser(res.user);
+        setError(null);
+        router.push("/home");
+      } else {
+        // help the user send another verification email
+        Alert.alert(
+          'Email Not Verified',
+          'Please verify your email address before logging in. Check your inbox for the verification link.',
+          [{ text: 'Resend Email', onPress: handleResendVerificationEmail }, { text: 'OK' }]
+        );
+        await signOut(auth);
+      }
     } catch (err) {
       if (err instanceof FirebaseError) {
         setError(err.code);
@@ -40,6 +54,20 @@ const Login = () => {
       }
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleResendVerificationEmail = async () => {
+    const user = auth.currentUser;
+    if (user) {
+      try {
+        await sendEmailVerification(user);
+        Alert.alert("Verification Email Resent", "Please check your email inbox again.");
+      } catch (err: any) {
+        Alert.alert("Error sending verification email", err);
+      }
+    } else {
+      Alert.alert('Error', 'No user is currently logged in.');
     }
   };
 

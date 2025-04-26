@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
+import { createUserWithEmailAndPassword, UserCredential, sendEmailVerification } from "firebase/auth";
 import { auth } from "@/firebase/config";
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, View, Alert } from "react-native";
 import { ActivityIndicator, Button, Text, TextInput } from "react-native-paper";
 import { FirebaseError } from "firebase/app";
 import { useRouter } from "expo-router";
@@ -17,23 +17,18 @@ class PasswordsDoNotMatchError extends Error {
   }
 }
 
-class EmptyUsernameError extends Error {
-  constructor() {
-    super("Username cannot be empty");
-  }
-}
-
 const SignUp = () => {
   const router = useRouter();
-  const [username, setUsername] = useState<string>("");
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [viewPassword, setViewPassword] = useState<boolean>(false);
 
+  const [verificationEmailSent, setVerificationEmailSent] = useState<boolean>(false);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { loggedInUser, setLoggedInUser } = useAuthContext();
 
   /**
    * Try to create a new user in Firebase Authentication with
@@ -42,44 +37,61 @@ const SignUp = () => {
    */
   const handleSignUp = async () => {
     setIsLoading(true);
+    setError(null);
 
     try {
       // Basic input checking
       if (password !== confirmPassword) {
         throw new PasswordsDoNotMatchError();
-      } else if (username === "") {
-        throw new EmptyUsernameError();
       }
 
-      // Create an auth user
+      // Create an auth user (will throw an error if the email already exists)
       const res: UserCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
 
-      // Create the user document
-      const userRef: DocumentReference = doc(db, "users", res.user.uid);
-      // Fill in document fields
-      await setDoc(userRef, {
-        username: username,
-        email: res.user.email,
-        createdAt: Timestamp.now(),
-      });
+      const user = res.user;
 
-      // set that user is logged in and redirect to home
-      setLoggedInUser(res.user);
-      setError(null);
-      router.push("/home");
+      // send the first email verification
+      await sendEmailVerification(user);
+      setVerificationEmailSent(true);
+
+      // // Create the user document
+      // const userRef: DocumentReference = doc(db, "users", res.user.uid);
+      // // Fill in document fields
+      // await setDoc(userRef, {
+      //   username: username,
+      //   email: res.user.email,
+      //   createdAt: Timestamp.now(),
+      // });
+
+      // // set that user is logged in and redirect to home
+      // setLoggedInUser(res.user);
+      // setError(null);
+      // router.push("/home");
     } catch (err) {
       if (err instanceof FirebaseError) {
-        setError(err.code);
+        // Handle Firebase-specific errors
+        switch (err.code) {
+          case "auth/email-already-in-use":
+            setError("This email is already in use. Please use a different email.");
+            break;
+          case "auth/invalid-email":
+            setError("The email address is invalid. Please enter a valid email.");
+            break;
+          case "auth/weak-password":
+            setError("The password is too weak. Please use a stronger password.");
+            break;
+          default:
+            setError("An unexpected error occurred. Please try again.");
+        }
       } else if (err instanceof PasswordsDoNotMatchError) {
-        setError(err.message);
-      } else if (err instanceof EmptyUsernameError) {
+        // Handle custom error
         setError(err.message);
       } else {
-        setError("An unexpected error occurred");
+        setError("An unexpected error occurred. Please try again.");
       }
     } finally {
       setIsLoading(false);
@@ -95,15 +107,6 @@ const SignUp = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Create a new account</Text>
-      <TextInput
-        style={styles.input}
-        mode="outlined"
-        label="Username"
-        outlineColor={colors.PURPLE}
-        activeOutlineColor={colors.PURPLE}
-        value={username}
-        onChangeText={(text) => setUsername(text)}
-      />
       <TextInput
         style={styles.input}
         mode="outlined"
@@ -143,6 +146,9 @@ const SignUp = () => {
           style={styles.loading}
         />
       ) : null}
+      {verificationEmailSent && (
+        <Text>A verification email has been sent. Please verify your account, then navigate to the login page.</Text>
+      )}
       <Button onPress={handleSignUp} style={styles.button}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </Button>
