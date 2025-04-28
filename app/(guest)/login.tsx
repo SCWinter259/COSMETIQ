@@ -1,13 +1,24 @@
 import { Alert, SafeAreaView, View } from "react-native";
 import { auth } from "../../firebase/config";
 import { useRouter } from "expo-router";
-import { sendEmailVerification, signInWithEmailAndPassword, signOut, UserCredential } from "firebase/auth";
+import {
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+  signOut,
+  UserCredential,
+} from "firebase/auth";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useState } from "react";
 import { Button, TextInput, Text, ActivityIndicator } from "react-native-paper";
 import { FirebaseError } from "firebase/app";
 import styles from "@/styles/guest/loginStyles";
 import colors from "@/constants/colors";
+
+class EmailNotVerifiedError extends Error {
+  constructor() {
+    super("Email is not yet verified");
+  }
+}
 
 const Login = () => {
   const router = useRouter();
@@ -17,6 +28,7 @@ const Login = () => {
   const [viewPassword, setViewPassword] = useState<boolean>(false);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [resendVerification, setResendVerification] = useState<boolean>(false);
 
   const { loggedInUser, setLoggedInUser } = useAuthContext();
 
@@ -32,44 +44,62 @@ const Login = () => {
       );
       const user = res.user;
 
-      // Check if the user exists and verified
-      if(user && user.emailVerified) {
-        setLoggedInUser(res.user);
-        setError(null);
-        router.push("/home");
-      } else {
-        // help the user send another verification email
-        Alert.alert(
-          'Email Not Verified',
-          'Please verify your email address before logging in. Check your inbox for the verification link.',
-          [{ text: 'Resend Email', onPress: handleResendVerificationEmail }, { text: 'OK' }]
-        );
-        await signOut(auth);
+      // check if the user is verified
+      if(!user.emailVerified) {
+        throw new EmailNotVerifiedError();
       }
+
+      // if the user exists and verified, log the user in and remove any previous error
+      setLoggedInUser(res.user);
+      setError(null);
+      setResendVerification(false);
+      // TODO: Redirect to addUserInfo page if user is new (cannot find user collections in database)
+
+      // TODO: Redirect to the home page if normal user
+      // router.push("/home");
     } catch (err) {
       if (err instanceof FirebaseError) {
-        setError(err.code);
+        // Handle Firebase-specific errors
+        switch (err.code) {
+          case "auth/user-not-found":
+            setError("No user found with this email. Please sign up first.");
+            break;
+          case "auth/wrong-password":
+            setError("Incorrect password. Please try again.");
+            break;
+          case "auth/invalid-email":
+            setError(
+              "The email address is invalid. Please enter a valid email."
+            );
+            break;
+          default:
+            setError("An unexpected error occurred. Please try again.");
+        }
+      } else if (err instanceof EmailNotVerifiedError) {
+        setError(err.message);
       } else {
         setError("An unexpected error occurred");
+        setResendVerification(true);
       }
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleResendVerificationEmail = async () => {
-    const user = auth.currentUser;
-    if (user) {
-      try {
-        await sendEmailVerification(user);
-        Alert.alert("Verification Email Resent", "Please check your email inbox again.");
-      } catch (err: any) {
-        Alert.alert("Error sending verification email", err);
-      }
-    } else {
-      Alert.alert('Error', 'No user is currently logged in.');
-    }
-  };
+  // TODO: make a text and button to resend the verification email
+  // const handleResendVerificationEmail = async () => {
+  //   const user = auth.currentUser;
+  //   if (user) {
+  //     try {
+  //       await sendEmailVerification(user);
+  //       Alert.alert("Verification Email Resent", "Please check your email inbox again.");
+  //     } catch (err: any) {
+  //       Alert.alert("Error sending verification email", err);
+  //     }
+  //   } else {
+  //     Alert.alert('Error', 'No user is currently logged in.');
+  //   }
+  // };
 
   const viewPasswordIcon = viewPassword ? (
     <TextInput.Icon onPress={() => setViewPassword(false)} icon="eye-off" />
