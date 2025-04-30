@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { createUserWithEmailAndPassword, UserCredential, sendEmailVerification } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  UserCredential,
+  sendEmailVerification,
+} from "firebase/auth";
 import { auth } from "@/firebase/config";
 import { SafeAreaView, View, Alert } from "react-native";
 import { ActivityIndicator, Button, Text, TextInput } from "react-native-paper";
@@ -26,7 +30,8 @@ const SignUp = () => {
   const [error, setError] = useState<string | null>(null);
   const [viewPassword, setViewPassword] = useState<boolean>(false);
 
-  const [verificationEmailSent, setVerificationEmailSent] = useState<boolean>(false);
+  const [verificationEmailSent, setVerificationEmailSent] =
+    useState<boolean>(false);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -76,13 +81,19 @@ const SignUp = () => {
         // Handle Firebase-specific errors
         switch (err.code) {
           case "auth/email-already-in-use":
-            setError("This email is already in use. Please use a different email.");
+            setError(
+              "This email is already in use. Please use a different email."
+            );
             break;
           case "auth/invalid-email":
-            setError("The email address is invalid. Please enter a valid email.");
+            setError(
+              "The email address is invalid. Please enter a valid email."
+            );
             break;
           case "auth/weak-password":
-            setError("The password is too weak. Please use a stronger password.");
+            setError(
+              "The password is too weak. Please use a stronger password."
+            );
             break;
           default:
             setError("An unexpected error occurred. Please try again.");
@@ -147,7 +158,10 @@ const SignUp = () => {
         />
       ) : null}
       {verificationEmailSent && (
-        <Text>A verification email has been sent. Please verify your account, then navigate to the login page.</Text>
+        <Text style={styles.regularText}>
+          A verification email has been sent. Please verify your account, then
+          navigate to the login page.
+        </Text>
       )}
       <Button onPress={handleSignUp} style={styles.button}>
         <Text style={styles.buttonText}>Sign Up</Text>

@@ -51,6 +51,12 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     marginTop: 12,
   },
+  regularText: {
+    color: colors.DEFAULT_BLACK,
+    fontFamily: fonts.Roboto_400Regular,
+    fontSize: 16,
+    margin: 8,
+  }
 });
 
 export default styles;
