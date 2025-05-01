@@ -80,7 +80,7 @@ storageLocations: [
 ```json
 tags: [
     userId(from_users): {
-        tags: [String]
+        tags: {String: String}
     }
 ]
 ```
